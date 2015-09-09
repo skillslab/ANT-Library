@@ -138,7 +138,7 @@ BOOL DSIFramerANT::WriteMessage(void *pvData_, USHORT usMessageSize_)
    aucTxFifo[MESG_SIZE_OFFSET] = (UCHAR) usMessageSize_;
    aucTxFifo[MESG_ID_OFFSET] = ((ANT_MESSAGE *) pvData_)->ucMessageID;
    memcpy(&aucTxFifo[MESG_DATA_OFFSET], ((ANT_MESSAGE *) pvData_)->aucData, usMessageSize_);
-   aucTxFifo[ucTotalSize++] = CheckSum_Calc8(aucTxFifo, ucTotalSize);
+   aucTxFifo[ucTotalSize] = CheckSum_Calc8(aucTxFifo, ucTotalSize++);
 
    // Pad with two zeros.
    aucTxFifo[ucTotalSize++] = 0;
