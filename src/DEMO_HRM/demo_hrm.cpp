@@ -96,8 +96,8 @@ CANTSlave* CANTSlave::pThis = NULL;
 
 BOOL CANTSlave::init()
 {
-    ANT_Init(0,57600);
     LOG(INFO) << "Start init...";
+    ANT_Init(0,115200);
     ANT_AssignResponseFunction(CANTSlave::response_callback, CANTSlave::aucResponseBuffer);
     ANT_AssignChannelEventFunction(USER_ANTCHANNEL,CANTSlave::channel_callback, CANTSlave::aucChannelBuffer);
     ANT_ResetSystem();
