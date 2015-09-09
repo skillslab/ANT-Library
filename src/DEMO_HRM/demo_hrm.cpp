@@ -168,6 +168,18 @@ BOOL CANTSlave::response_callback(UCHAR ucChannel_, UCHAR ucMessageId_)
     LOG(INFO) << "Rx Call Response:"<<(int)ucMessageId_<<",channel:"<<(int)ucChannel_;
     switch(ucMessageId_)
     {
+    case MESG_SERIAL_ERROR_ID: {
+        LOG(ERROR) << "Serial Error Message: " << (int)aucResponseBuffer[MESSAGE_BUFFER_DATA1_INDEX] << std::endl;
+        int errId =(int)aucResponseBuffer[MESSAGE_BUFFER_DATA1_INDEX];
+        switch(errId)
+        {
+          case 0: LOG(ERROR) << "First byte of USB data was not the ANT serial message TX sync byte (0xA4)"; break;
+          case 2: LOG(ERROR) << "The Checksum of the ANT message was incorrect"; break;
+          case 3: LOG(ERROR) << "The size of the ANT message was too large"; break;
+          default: LOG(ERROR) << "Unknown serial error occured with error ID: " << errId;
+        }
+        break;
+    }
     case MESG_RESPONSE_EVENT_ID:
     {
         hrm_init(aucResponseBuffer[MESSAGE_BUFFER_DATA2_INDEX],aucResponseBuffer[MESSAGE_BUFFER_DATA3_INDEX]);
