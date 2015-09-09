@@ -20,6 +20,7 @@
  */
 
 #include "types.h"
+
 #if defined(DSI_TYPES_LINUX)
 
 
@@ -31,6 +32,7 @@ using namespace std;
 #include "usb_device_handle.hpp"
 
 #include <libusb-1.0/libusb.h>
+#include <glog/logging.h>
 
 USBError::Enum get_USBError_by_libusb(int libusb_err)
 {
@@ -107,9 +109,10 @@ public:
         }
         else if(dev_handle = libusb_open_device_with_vid_pid(g_libusb.ctx,USB_ANT_STICK_VID,USB_ANT_STICK2m_PID))
         {
-            clDeviceList.Add(USBDeviceLinux(dev_handle));
-            //we should close it before we real need
-            libusb_close(dev_handle);
+          LOG(INFO) << "Found ANT USB Stick-m";
+          clDeviceList.Add(USBDeviceLinux(dev_handle));
+          //we should close it before we real need
+          libusb_close(dev_handle);
         }
     }
 
@@ -143,6 +146,7 @@ public:
                     pclDeviceHandle_ = NULL;
                     return FALSE;
                 }
+                LOG(INFO) << "Successfully claimed device interface!";
 
                 ///TODO bug
                 ///I don't known why libusb_close()->unref->free(dev) always call double free error

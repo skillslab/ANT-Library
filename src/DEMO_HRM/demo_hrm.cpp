@@ -25,7 +25,6 @@
 #include <pthread.h>
 #include <glog/logging.h>
 
-
 #define MAX_CHANNEL_EVENT_SIZE   (MESG_MAX_SIZE_VALUE)     // Channel event buffer size, assumes worst case extended message size
 #define MAX_RESPONSE_SIZE        (MESG_MAX_SIZE_VALUE)     // Protocol response buffer size
 
@@ -98,6 +97,7 @@ CANTSlave* CANTSlave::pThis = NULL;
 BOOL CANTSlave::init()
 {
     ANT_Init(0,57600);
+    LOG(INFO) << "Start init...";
     ANT_AssignResponseFunction(CANTSlave::response_callback, CANTSlave::aucResponseBuffer);
     ANT_AssignChannelEventFunction(USER_ANTCHANNEL,CANTSlave::channel_callback, CANTSlave::aucChannelBuffer);
     ANT_ResetSystem();
@@ -119,7 +119,9 @@ void* CANTSlave::mainloop(void)
     UCHAR aucNetKey[8] = ANTPLUS_NETWORK_KEY;
 
     //STEP1 ANT_SetNetworkKey
+    LOG(INFO) << "Setting network key to " << (char*)aucNetKey;
     ANT_SetNetworkKey(0, aucNetKey);
+    LOG(INFO) << "Success!" << std::endl;
     while(!bExit)
         sleep(5);
 
@@ -183,6 +185,7 @@ BOOL CANTSlave::hrm_init(UCHAR ucMessageId_,UCHAR ucResult_)
 
     if(RESPONSE_NO_ERROR!=ucResult_)
     {
+        LOG(WARNING) << "Error occured...! " << (int) ucResult_;
         return FALSE;
     }
 
