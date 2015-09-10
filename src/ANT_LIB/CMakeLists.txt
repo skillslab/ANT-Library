@@ -30,8 +30,6 @@ install (TARGETS ant
 install (FILES ${headers}
          DESTINATION include/ant)
 
-message("Current binary dir: ${CMAKE_CURRENT_BINARY_DIR}")
-
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
@@ -45,7 +43,6 @@ export(TARGETS ant
 
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
    "${INSTALL_INCLUDE_DIR}")
-message("RELATIVE_PATH: ${REL_INCLUDE_DIR}")
 
 set(CONF_INCLUDE_DIRS "\${ANT_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 configure_file(${PROJECT_SOURCE_DIR}/cmake/AntConfig.cmake.in
