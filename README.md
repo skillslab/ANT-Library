@@ -45,8 +45,10 @@ Dependances :
 Compile :
 ---------
    + Compile:
+     - mkdir build
      - cd build
-     - make
+     - cmake ..
+     - sudo make install
 
 DEMO
 ---------
