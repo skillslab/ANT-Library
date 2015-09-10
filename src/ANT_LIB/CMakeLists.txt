@@ -21,6 +21,11 @@ endforeach()
 
 add_library (ant ${source_file})
 
+find_library(PTHREAD pthread)
+find_library(LIBUSB usb-1.0)
+
+target_link_libraries(ant ${PTHREAD} ${LIBUSB})
+
 install (TARGETS ant 
          EXPORT AntTargets 
          RUNTIME DESTINATION bin
