@@ -1,0 +1,11 @@
+get_filename_component(ANT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(ANT_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET ant AND NOT ANT_BINARY_DIR)
+  include("${ANT_CMAKE_DIR}/AntTargets.cmake")
+endif()
+ 
+# These are IMPORTED targets created by AntTargets.cmake
+set(ANT_LIBRARIES ant)
+

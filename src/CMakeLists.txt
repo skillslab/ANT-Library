@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-project(ANT) 
-
 #include directory from all recurse sub-directories 
 file(GLOB_RECURSE headers "*.h" "*.hpp")
 
@@ -13,7 +10,7 @@ list(REMOVE_DUPLICATES ant_INCLUDE_DIRS)
 
 include_directories(${ant_INCLUDE_DIRS})
 
-#lib&demo directory
+#lib & demo directory
 add_subdirectory(ANT_LIB)
 
 add_subdirectory(DEMO_HRM)
