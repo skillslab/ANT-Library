@@ -21,3 +21,4 @@ codeblocks/*
 !Makefile
 demo_antfs
 demo_hrm
+build
