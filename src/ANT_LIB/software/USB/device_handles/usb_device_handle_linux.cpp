@@ -32,6 +32,7 @@ using namespace std;
 #include "usb_device_handle.hpp"
 
 #include <libusb-1.0/libusb.h>
+#include <iostream>
 
 USBError::Enum get_USBError_by_libusb(int libusb_err)
 {
@@ -128,13 +129,23 @@ public:
             {
 
                 pclDeviceHandle_ = new USBDeviceHandleLinux(dev_handle,clDevice_);
+
+                if (libusb_kernel_driver_active(dev_handle, 0))
+                {
+                  libusb_detach_kernel_driver(dev_handle, 0);
+                  if (LIBUSB_SUCCESS!=result)
+                    std::cerr << "Detach: no success" <<std::endl;
+                }
+
+ //               libusb_release_interface(dev_handle, 0);
                 result = libusb_set_configuration(dev_handle,1);
 
                 if (LIBUSB_SUCCESS!=result)
                 {
-                    libusb_close(dev_handle);
-                    pclDeviceHandle_ = NULL;
-                    return FALSE;
+                  std::cerr << "Could not set USB configuration" <<std::endl;
+                  libusb_close(dev_handle);
+                  pclDeviceHandle_ = NULL;
+                  return FALSE;
                 }
 
                 result = libusb_claim_interface(dev_handle,0);
